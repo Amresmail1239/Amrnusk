@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداة أكواد NG - القائمة المحدثة (182 كود)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #f5f6f2;
+            --card-bg: #ffffff;
+            --pinned-bg: #fffdf6;
+            --pinned-border: #cbb365;
+            --code-green: #1b6d4f;
+            --badge-gold-bg: #c9a33b;
+            --badge-gold-text: #ffffff;
+            --badge-newest-bg: #d9f3e6;
+            --badge-newest-text: #1b6d4f;
+            --btn-copy-bg: #eaf9f3;
+            --btn-copy-text: #185c43;
+            --btn-link-bg: #eef1fa;
+            --btn-link-text: #344776;
+            --btn-browser-bg: #fdf5e6;
+            --btn-browser-text: #6d5128;
+            --text-muted: #828894;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+            color: #222;
+            padding: 16px 12px 60px;
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        /* Top Controls & Stats Bar */
+        .top-bar {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eceee8;
+        }
+
+        .top-bar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .app-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--code-green);
+        }
+
+        .stats-badges {
+            display: flex;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .stat-pill {
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: #f0f3ef;
+            color: #3b423e;
+        }
+
+        .stat-pill.copied-count {
+            background: var(--badge-newest-bg);
+            color: var(--code-green);
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 150px;
+            padding: 8px 12px;
+            border: 1px solid #dfe3dc;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+            background: #fafbf9;
+        }
+
+        .search-input:focus {
+            border-color: var(--code-green);
+            background: #fff;
+        }
+
+        .util-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.12s ease, opacity 0.15s ease;
+        }
+
+        .util-btn:active {
+            transform: scale(0.96);
+        }
+
+        .util-btn.copy-all {
+            background: var(--code-green);
+            color: #fff;
+        }
+
+        .util-btn.share-fb {
+            background: #1877f2;
+            color: #fff;
+        }
+
+        .util-btn.reset-btn {
+            background: #f3e8e8;
+            color: #8c2d2d;
+        }
+
+        /* Card Styles Matching Screenshot */
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .code-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 18px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            border: 1px solid #ededeb;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .code-card.pinned {
+            background: var(--pinned-bg);
+            border: 2px solid var(--pinned-border);
+            box-shadow: 0 4px 14px rgba(203, 179, 101, 0.14);
+        }
+
+        .code-card.copied-card {
+            border-color: #9bd6bc;
+            background: #f9fefb;
+        }
+
+        /* Top Row inside Card: Code on Right, Badge on Left (in RTL: first element is right, second is left) */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .code-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.32rem;
+            font-weight: 700;
+            color: var(--code-green);
+            letter-spacing: 0.4px;
+            direction: ltr;
+            text-align: left;
+            user-select: all;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 13px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .badge-pinned {
+            background-color: var(--badge-gold-bg);
+            color: var(--badge-gold-text);
+        }
+
+        .badge-newest {
+            background-color: var(--badge-newest-bg);
+            color: var(--badge-newest-text);
+        }
+
+        .badge-index {
+            background-color: #f1f3ef;
+            color: #6c736e;
+            font-size: 0.76rem;
+        }
+
+        /* Subtitle / Timestamp Row (Aligned Right in RTL) */
+        .card-subtitle {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .card-timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            text-align: right;
+        }
+
+        /* Action Buttons Row (Aligned Right in RTL: نسخ -> فتح الرابط -> فتح في المتصفح) */
+        .card-actions {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 11px;
+            padding: 9px 18px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.12s ease, filter 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-copy {
+            background-color: var(--btn-copy-bg);
+            color: var(--btn-copy-text);
+            min-width: 74px;
+        }
+
+        .btn-copy.copied {
+            background-color: #1b6d4f;
+            color: #ffffff;
+        }
+
+        .btn-link {
+            background-color: var(--btn-link-bg);
+            color: var(--btn-link-text);
+        }
+
+        .btn-browser {
+            background-color: var(--btn-browser-bg);
+            color: var(--btn-browser-text);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #1b6d4f;
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+            transition: transform 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="top-bar-header">
+            <div class="app-title">قائمة أكواد NG الصافية</div>
+            <div class="stats-badges">
+                <span class="stat-pill">الإجمالي: <span id="totalCount">0</span></span>
+                <span class="stat-pill copied-count">تم نسخ: <span id="copiedCount">0</span></span>
+            </div>
+        </div>
+        <div class="controls-row">
+            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن كود..." oninput="renderCards()">
+            <button class="util-btn copy-all" onclick="copyAllCodes()">نسخ الكل</button>
+            <button class="util-btn share-fb" onclick="shareTool()">مشاركة الرابط</button>
+            <button class="util-btn reset-btn" onclick="resetCopied()">تصفير</button>
+        </div>
+    </div>
+
+    <div id="cardsContainer" class="cards-container"></div>
+
+    <div id="toast" class="toast">تم نسخ الكود بنجاح ✓</div>
+
+    <script>
+        const pinnedCodes = ["NG-j0PtEZxz", "NG-dOEZxBDa"];
+        const regularCodes = ["NG-nk1HKhxf", "NG-eV0L5a9j", "NG-wV7377ro", "NG-fprsQsfe", "NG-KVDxooxz", "NG-B0tjavdP", "NG-I6fEjQbJ", "NG-WLJZORYB", "NG-7K4iZ10S", "NG-Clcg4XPJ", "NG-ICAyvlAY", "NG-8i2vYBpm", "NG-44lqoF9u", "NG-EOB6zK9z", "NG-CxFhvSe9", "NG-g76cY6SD", "NG-MuK890p7", "NG-qEkcILCu", "NG-oNqYBTWo", "NG-avAm0L0I", "NG-BMY5FIYd", "NG-xhX33379", "NG-Pkdi3JHI", "NG-V0vOaYYI", "NG-QTtGvrEa", "NG-mGFiniM0", "NG-uXojEQJ5", "NG-XChTnMnb", "NG-6D2OBy4E", "NG-vOeApMlh", "NG-d6tf63mE", "NG-VdfFNirG", "NG-XuVFANWX", "NG-FUNO8aiV", "NG-TJbthdRs", "NG-rsQh002c", "NG-IFqnPFY2", "NG-qepbeLge", "NG-3Vhiqxq4", "NG-H2n8O2WO", "NG-lv8O9jrM", "NG-6PLR6W1H", "NG-btndg4en", "NG-bmFGH1S6", "NG-FrwX6z6C", "NG-Y86JcYqK", "NG-nZ6f9PmC", "NG-ISiwG9GG", "NG-6YNxU3pG", "NG-Y5HWChnz", "NG-pgJ1Ws6h", "NG-TLpb2bJO", "NG-S8hi427h", "NG-B40jW9bM", "NG-J3R4vcQa", "NG-9p0Anwlc", "NG-FxJLwC2S", "NG_BpnirT5s", "NG-vhDHDzil", "NG-0hoMczQX", "NG-nnLrxP5D", "NG-nQysIld2", "NG-AyJllL3K", "NG-dKRJIIF6", "NG-SYUo3bBV", "NG-OAeU4i40", "NG-wJzeuLI7", "NG-Ib3eDwz7", "NG-pp5p5Pa0", "NG-w2AwGnDh", "NG-mKDTlcJb", "NG-HtNEr9XH", "NG-jxQQ3Q7T", "NG-13Dc4DNk", "NG-TTKynfvx", "NG-eW6thJ83", "NG-2rpWTIXK", "NG-7rSQ6qSS", "NG-ZWBQKd4t", "NG-a6tNhs2H", "NG-pfVWVDo1", "NG-VC5epr3R", "NG-qX5LL7Pv", "NG-lUSqYVdy", "NG-2ryQWv11", "NG-5URwRBd3", "NG-XSlFZRRI", "NG-bYJrd4mn", "NG-h0yq0cEY", "NG-GKMcnZF8", "NG-AQPrUWBT", "NG-67ehyUUd", "NG-z55mmjo9", "NG-7rxe1SwK", "NG-C9PBKvhY", "NG-1WCoESFA", "NG-T0yJZGGW", "NG-LAPedKYk", "NG-wuSe3KjE", "NG-8UQAMC5u", "NG-OwtUXfMH.", "NG-eWLvjweQ", "NG-8K8qCZyr", "NG-ASY3wYiJ", "NG-KMVGYWKI", "NG-Y7t6nzs4", "NG-xfSUZdxW", "NG-wzOvtOUj", "NG-YKZ88esL", "NG-zcxbmLy0", "NG-BrtlVdfl", "NG-NofrbN9f", "NG-dOAnd8sD", "NG-paB3k8QM", "NG-tOCBfSt1", "NG-3YNfWU9X", "NG-wlMUn2gj", "NG-IBNZHZDB", "NG-4bG3ailR", "NG-ZdYFIZ49", "NG-NdQbdqKm", "NG-okoBSeLG", "NG-UXIAjMFL", "NG-AxKZllhq", "NG-nCeLjuZr", "NG-r1pDaKqk", "NG-yrgB1Hpj", "NG-RYYCIVKa", "NG-KYGEemRF", "NG-YdMkTWwq", "NG-fOMPkWuL", "NG-3zJLqFwF", "NG-oGyZsxNz", "NG-dL4a0Znt", "NG-HWMhiuDu", "NG-nftplhPM", "NG-ejq0J4Xg", "NG-tal95b2W", "NG-NKMLRYIH", "NG-kl30plbf", "NG-Lyogunok", "NG-QKilL2bb", "NG-CtDliTVY", "NG-iEUz8Wqp", "NG-qeqF0OAY", "NG-MCpY8W51", "NG-54K6L2RK", "NG-dw8TgFzS", "NG-u5efv2kL", "NG-aaje9aPc", "NG-wU8Ey0bU", "NG- RHGyurk1", "NG-Xrm477yJ", "NG-tkoimgQo", "NG-IDVSJe1p", "NG-PQDXADY2", "NG-I9b9PgRm", "QjFnwPxo", "NG-QLbk5L4n", "NG-vshgHPUC", "NG-aPGwUjOF", "NG-yMk2VY6e", "NG-Gkq648HP", "NG-rrjz7dKc", "NG-FX4OZGUK", "NG-jqbcg3B8", "NG-RAAA9ZOU", "NG-atottviN", "NG-nSQjj7tI", "NG-OLQ6i8AY", "NG-rLiqgGcx", "NG-QZ4BiUMa", "NG-b7TNdwtF", "NG-bwl0ru8K", "NG-KeDMlvlW", "NG-uCXJiM3r", "NG-wnELg15w", "NG-iNv3prpp", "NG-YVFwMCEp", "NG-siwROJVE"];
+        const STORAGE_KEY = 'ng_copied_codes_v2';
+
+        let copiedSet = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+
+        function saveCopiedState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify([...copiedSet]));
+            updateStats();
+        }
+
+        function updateStats() {
+            const total = pinnedCodes.length + regularCodes.length;
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('copiedCount').textContent = copiedSet.size;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1800);
+        }
+
+        function fallbackCopyText(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            try {
+                document.execCommand('copy');
+            } catch (e) {}
+            document.body.removeChild(ta);
+        }
+
+        function copyCode(code, btnEl) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(code).catch(() => fallbackCopyText(code));
+            } else {
+                fallbackCopyText(code);
+            }
+
+            copiedSet.add(code);
+            saveCopiedState();
+
+            if (btnEl) {
+                btnEl.textContent = 'تم النسخ ✓';
+                btnEl.classList.add('copied');
+                const card = btnEl.closest('.code-card');
+                if (card) card.classList.add('copied-card');
+            }
+            showToast(`تم نسخ الكود: ${code}`);
+        }
+
+        function openCodeLink(code, mode) {
+            copyCode(code, null);
+            renderCards();
+            showToast(`تم نسخ ${code} وتجهيزه للفتح`);
+        }
+
+        function copyAllCodes() {
+            const all = [...pinnedCodes, ...regularCodes].join('\n');
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(all).catch(() => fallbackCopyText(all));
+            } else {
+                fallbackCopyText(all);
+            }
+            showToast(`تم نسخ جميع الأكواد (${pinnedCodes.length + regularCodes.length} كود) ✓`);
+        }
+
+        function shareTool() {
+            const url = window.location.href;
+            if (navigator.share && url.startsWith('http')) {
+                navigator.share({
+                    title: 'أداة أكواد NG الصافية (182 كود)',
+                    text: 'قائمة أكواد NG مجمعة وبدون تكرار جاهزة للنسخ بضغطة واحدة:',
+                    url: url
+                }).catch(() => {});
+            } else {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(url).catch(() => fallbackCopyText(url));
+                } else {
+                    fallbackCopyText(url);
+                }
+                showToast('تم نسخ رابط الصفحة للمشاركة ✓');
+            }
+        }
+
+        function resetCopied() {
+            copiedSet.clear();
+            saveCopiedState();
+            renderCards();
+            showToast('تم تصفير حالة النسخ');
+        }
+
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            const query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+            let html = '';
+
+            // 1. Render Pinned Codes at the very top
+            pinnedCodes.forEach((code, idx) => {
+                if (query && !code.toLowerCase().includes(query)) return;
+                const isCopied = copiedSet.has(code);
+                html += `
+                <div class="code-card pinned ${isCopied ? 'copied-card' : ''}">
+                    <div class="card-header">
+                        <span class="code-text">${code}</span>
+                        <span class="badge badge-pinned">📌 ثابت فوق</span>
+                    </div>
+                    <div class="card-subtitle">كود أساسي مميز - ثابت فوق دائماً (#${idx + 1})</div>
+                    <div class="card-actions">
+                        <button class="action-btn btn-copy ${isCopied ? 'copied' : ''}" onclick="copyCode('${code}', this)">
+                            ${isCopied ? 'تم النسخ ✓' : 'نسخ'}
+                        </button>
+                        <button class="action-btn btn-link" onclick="openCodeLink('${code}', 'link')">فتح الرابط</button>
+                        <button class="action-btn btn-browser" onclick="openCodeLink('${code}', 'browser')">فتح في المتصفح</button>
+                    </div>
+                </div>`;
+            });
+
+            // 2. Render Regular Unique Codes
+            regularCodes.forEach((code, idx) => {
+                if (query && !code.toLowerCase().includes(query)) return;
+                const isCopied = copiedSet.has(code);
+                const badgeHtml = idx === 0
+                    ? `<span class="badge badge-newest">الأحدث</span>`
+                    : `<span class="badge badge-index">#${idx + 1}</span>`;
+
+                html += `
+                <div class="code-card ${isCopied ? 'copied-card' : ''}">
+                    <div class="card-header">
+                        <span class="code-text">${code}</span>
+                        ${badgeHtml}
+                    </div>
+                    <div class="card-timestamp">
+                        <span>01:15 2026-11-04</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn btn-copy ${isCopied ? 'copied' : ''}" onclick="copyCode('${code}', this)">
+                            ${isCopied ? 'تم النسخ ✓' : 'نسخ'}
+                        </button>
+                        <button class="action-btn btn-link" onclick="openCodeLink('${code}', 'link')">فتح الرابط</button>
+                        <button class="action-btn btn-browser" onclick="openCodeLink('${code}', 'browser')">فتح في المتصفح</button>
+                    </div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+            updateStats();
+        }
+
+        renderCards();
+    </script>
+</body>
+</html>
